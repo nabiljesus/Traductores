@@ -38,7 +38,7 @@ main =
 	do
 		fileName <- getFilename
 		contents <- readFile fileName
-		print $ lexer contents
+		lexer contents
 
 {-
    getFilename
