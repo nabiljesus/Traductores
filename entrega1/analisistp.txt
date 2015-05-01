@@ -31,3 +31,46 @@ AUTORES:
 		* Diagrama de transicion: 
 	
 			Ver archivo diagramaT.png
+		
+		* En Lanscii es posible comentar secciones completas del programa
+		  encerrando una seccion de codigo entre los sımbolos "{-" y "-}" 
+		  (sin comillas). 
+		  
+		  El sımbolo "{-" inicia el comentario y se finaliza con el primer
+		  simbolo "-}" encontrado. Adicionalmente, "{-" puede apareceder 
+		  dentro de la seccion, pero este sera ignorado ya que no se permite
+		  anidamientos de comentarios. Por tal motivo, para cumplir con 
+		  estos requerimientos se decidio que la expresion regular deseada
+		  debe cumplir que:
+		  
+		  		1.- Debe iniciar con el caracter "{-". De esta forma se 
+				  	podra iniciar el area de comentacion.
+				
+				2.- Debe finalizar con el caracter "-}". De esta forma
+					se indicara que se finaliza el comentario.
+				
+				3.- Debe admitir un comentario vacio, "{--}"
+				
+				4.- La seccion a comentar puede estar compuesta por
+					cadenas de caracteres alfanumericos. Asi como
+					tambien de caracteres especiales.
+			
+		## FALTA EL PORQUE.
+		
+
+2.- Proporcione dos expresiones regulares: E0 y E1 para el reconocimiento de
+ 	la palabra reservada write y los identificadores de variables del lenguaje
+	respectivamente.
+	
+3.- Proporcione dos expresiones regulares: E0 y E1 para el reconocimiento de
+	la palabra reservada write y los identificadores de variables del lenguaje
+	respectivamente.
+	
+4.- Proponga el diagrama de transicion de un automata finito no-deterministico
+	M2 que reconozca la union de los lenguajes L(M0) y L(M1)
+	
+5.- Un analizador lexicografico debe ser capaz de discernir a cual lenguaje 
+	pertenece una palabra (o, en este caso, token) que acaba de reconocer. 
+	De acuerdo con esto, cada estado final del autómata M2 debe ser capaz de
+	diferenciar si la palabra reconocida pertenece al lenguaje L(M0) o L(M1).
+	Inidique lo anterior en cada estado final de M2.
