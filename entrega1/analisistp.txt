@@ -1,0 +1,33 @@
+-------------------------------------------------------------------------------
+
+UNIVERSIDAD SIMON BOLIVAR
+Departamento de Computacion y Tecnologia de la Informacion.
+CI3725 - Traductores e Interpretadores
+Abril - Julio 2015
+
+AUTORES:
+	Edward Fernandez. 	Carnet: 10-11121
+	Nabil Marquez.		Carnet: 11-10683
+
+-------------------------------------------------------------------------------
+
+							ANALISIS TEORICO-PRACTICO
+
+1.- Proporcione una expresion regular E que corresponda a los comentarios 
+	definidos en Lanscii. De el diagrama de transicion (la representacion 
+	grafica) de un automata finito (posiblemente no-deterministico) M que 
+	reconozca el lenguaje L denotado por E. De acuerdo con la definicion 
+	de los comentarios en Lanscii, explique brevemente cuales son las 
+	decisiones tomadas al construir la expresion regular E para que 
+	efectivamente sean cumplidas las restricciones de un comentario valido 
+	y porque estas funcionan.
+
+	SOLUCION:
+		* Expresion Regular 
+		
+				E = [{-]((\s)*(\w|\W)*)*[-}]
+	
+	
+		* Diagrama de transicion: 
+	
+			Ver archivo diagramaT.png
