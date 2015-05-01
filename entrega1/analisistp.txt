@@ -58,18 +58,26 @@ AUTORES:
 		## FALTA EL PORQUE.
 		
 
+
 2.- Proporcione dos expresiones regulares: E0 y E1 para el reconocimiento de
  	la palabra reservada write y los identificadores de variables del lenguaje
 	respectivamente.
+	
+	SOLUCION:
+		
+		* Expresion E0: write <= ?
+		
+		* Expresion E1: [a-zA-Z_][\w|\d]*
+		
 	
 3.- Proporcione dos expresiones regulares: E0 y E1 para el reconocimiento de
 	la palabra reservada write y los identificadores de variables del lenguaje
 	respectivamente.
 	
-4.- Proponga el diagrama de transicion de un automata finito no-deterministico
-	M2 que reconozca la union de los lenguajes L(M0) y L(M1)
+4.- Proponga el diagrama de transición de un autómata finito no-determinístico
+	M2 que reconozca la unión de los lenguajes L(M0) y L(M1)
 	
-5.- Un analizador lexicografico debe ser capaz de discernir a cual lenguaje 
+5.- Un analizador lexicográfico debe ser capaz de discernir a cuál lenguaje 
 	pertenece una palabra (o, en este caso, token) que acaba de reconocer. 
 	De acuerdo con esto, cada estado final del autómata M2 debe ser capaz de
 	diferenciar si la palabra reconocida pertenece al lenguaje L(M0) o L(M1).
