@@ -65,7 +65,7 @@ AUTORES:
 	
 	SOLUCION:
 		
-		* Expresion E0: write <= ?
+		* Expresion E0: "write " (sin las comillas)
 		
 		* Expresion E1: [a-zA-Z_][\w|\d]*
 		
