@@ -25,7 +25,9 @@ AUTORES:
 	SOLUCION:
 		* Expresion Regular 
 		
-				E = [{-]((\s)*(\w|\W)*)*[-}]
+				E = {-((\s)*(\w|[!|"@·#$%&/()=?{¿¡*.,;:-]|)*)*-}
+				
+				-- [{-]((\s)*(\w|\W)*)*[-}]
 	
 	
 		* Diagrama de transicion: 
