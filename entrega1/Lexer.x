@@ -27,39 +27,49 @@ module Lexer (lexer) where
 
 $digito = 0-9           -- UN digito
 $letra  = [a-zA-Z]      -- UNA letra
+---$number = [2147483647-2147483647]
 $booleano = [true false]
-$canvas = [\<\/\> \<\\\> \<\|\> \<_\> \<\-\>]
+$canvas = [ \/ \\ \| _ \- ]
 
 tokens :-
 
 	$white+                        ;
-	\{                             { \p s -> TkLCurly    s        (lyc p)     }
-    --\|                              { \p s -> TkLPipe     s        (lyc p)     }
-	\}                             { \p s -> TkRCurly    s        (lyc p)     }
-    \%                             { \p s -> TkVarInt    s        (lyc p)     }
-    \!                             { \p s -> TkVarBool   s        (lyc p)     }
-    @                              { \p s -> TkVarCanvas s        (lyc p)     }
-	\[                             { \p s -> TkLB        s        (lyc p)     }
-	\]                             { \p s -> TkRB        s        (lyc p)     }
-	\;                             { \p s -> TkSeq       s        (lyc p)     }
-    \+                             { \p s -> TkSum       s        (lyc p)     }
-    \-                             { \p s -> TkMinus     s        (lyc p)     }
-    \*                             { \p s -> TkTimes     s        (lyc p)     }
-    \/                             { \p s -> TkDiv       s        (lyc p)     }
-    \%                             { \p s -> TkMod       s        (lyc p)     }
-    \(                             { \p s -> TkLP        s        (lyc p)     }
-    \)                             { \p s -> TkRP        s        (lyc p)     }
-    --\<                             { \p s -> TkLT        s        (lyc p)     }
-    \<\=                           { \p s -> TkLE        s        (lyc p)     }
-    --\>                             { \p s -> TkGT        s        (lyc p)     }
-    \>\=                           { \p s -> TkGE        s        (lyc p)     }
-    \=                             { \p s -> TkEQ        s        (lyc p)     }
-    \!\=                           { \p s -> TkNE        s        (lyc p)     }
-    $booleano                      { \p s -> TkBool      s        (lyc p)     }
-    $canvas                        { \p s -> TkCanvas    s        (lyc p)     }
-    $digito+                       { \p s -> TkNum       (read s) (lyc p)     }
-    $letra [ $letra $digito _ ]*   { \p s -> TkId        s        (lyc p)     }
-    .                              ;
+    \{\-.*\-\}                     ;
+    \{                             { \p s -> LCURLY    s        (lyc p)     }
+    \|                       { \p s -> PIPE      s        (lyc p)     }
+	\}                             { \p s -> RCURLY    s        (lyc p)     }
+    \%                             { \p s -> VarInt    s        (lyc p)     }
+    \!                             { \p s -> VarBool   s        (lyc p)     }
+    @                              { \p s -> AT        s        (lyc p)     }
+	\[                             { \p s -> LB        s        (lyc p)     }
+	\]                             { \p s -> RB        s        (lyc p)     }
+	\;                             { \p s -> SEM_COLON       s        (lyc p)     }
+    \:                             { \p s -> COLON       s        (lyc p)     }
+    \'                             { \p s -> APOSTROPHE       s        (lyc p)     }
+    \$                             { \p s -> DOLAR       s        (lyc p)     }
+    \+                             { \p s -> SUM       s        (lyc p)     }
+    \-                             { \p s -> MINUS     s        (lyc p)     }
+    \*                             { \p s -> MULT     s        (lyc p)     }
+    \/                             { \p s -> DIV       s        (lyc p)     }
+    \%                             { \p s -> PERCENT   s        (lyc p)     }
+    \(                             { \p s -> LPARENTHESIS        s        (lyc p)     }
+    \)                             { \p s -> RPARENTHESIS        s        (lyc p)     }
+    \<                             { \p s -> LTHAN        s        (lyc p)     }
+    \<\=                           { \p s -> LEQUAL        s        (lyc p)     }
+    \>                             { \p s -> GTHAN        s        (lyc p)     }
+    \>\=                           { \p s -> GEQUAL        s        (lyc p)     }
+    \=                             { \p s -> EQUALS    s        (lyc p)     }
+    \/\=                           { \p s -> NEQUALS        s        (lyc p)     }
+    \/\\                           { \p s -> AND        s        (lyc p)     }
+    \\\/                           { \p s -> OR        s        (lyc p)     }
+    write                          { \p s -> WRITE        s        (lyc p)     }
+    read                          { \p s -> READ        s        (lyc p)     }
+    $booleano                      { \p s -> BOOLEAN      s        (lyc p)     }
+    \<$canvas\>                    { \p s -> CANVAS    s        (lyc p)     }
+    \#                             { \p s -> CANVAS    s        (lyc p)     }
+    $digito+                       { \p s -> NUMBER       (read s) (lyc p)     }
+    $letra [ $letra $digito _ ]*   { \p s -> IDENTIFIER        s        (lyc p)     }
+    .                              { \p s -> Error "Error: Unexpected character:" s "at line: "(fst(lyc p)) ", column: "(snd(lyc p))}
 
 {   
 
@@ -83,32 +93,40 @@ tokens :-
 		(/parser/).
 -}
 
-data Token = TkLCurly   String  (Int,Int)
-        | TkLPipe       String  (Int,Int)
-        | TkRCurly      String  (Int,Int)
-        | TkVarInt      String  (Int,Int)
-        | TkVarBool     String  (Int,Int)
-        | TkVarCanvas   String  (Int,Int)
-        | TkLB          String  (Int,Int)
-        | TkRB          String  (Int,Int)
-        | TkSeq         String  (Int,Int)
-        | TkSum         String  (Int,Int)
-        | TkMinus       String  (Int,Int)
-        | TkTimes       String  (Int,Int)
-        | TkDiv         String  (Int,Int)
-        | TkMod         String  (Int,Int)
-        | TkLP          String  (Int,Int)
-        | TkRP          String  (Int,Int)
-        | TkLT          String  (Int,Int)
-        | TkLE          String  (Int,Int)
-        | TkGT          String  (Int,Int)
-        | TkGE          String  (Int,Int)
-        | TkEQ          String  (Int,Int)
-        | TkNE          String  (Int,Int)
-        | TkBool        String  (Int,Int)
-        | TkCanvas      String  (Int,Int)
-        | TkNum         Int     (Int,Int)
-        | TkId          String  (Int,Int)
+data Token = LCURLY   String  (Int,Int)
+        | PIPE        String  (Int,Int)
+        | RCURLY      String  (Int,Int)
+        | VarInt      String  (Int,Int)
+        | VarBool     String  (Int,Int)
+        | AT          String  (Int,Int)
+        | LB          String  (Int,Int)
+        | RB          String  (Int,Int)
+        | SEM_COLON         String  (Int,Int)
+        | COLON         String  (Int,Int)
+        | APOSTROPHE  String (Int,Int)
+        | DOLAR  String (Int,Int)
+        | SUM         String  (Int,Int)
+        | MINUS       String  (Int,Int)
+        | MULT       String  (Int,Int)
+        | DIV         String  (Int,Int)
+        | PERCENT     String  (Int,Int)
+        | LPARENTHESIS          String  (Int,Int)
+        | RPARENTHESIS          String  (Int,Int)
+        | LTHAN          String  (Int,Int)
+        | LEQUAL          String  (Int,Int)
+        | GTHAN          String  (Int,Int)
+        | GEQUAL          String  (Int,Int)
+        | EQUALS      String  (Int,Int)
+        | AND        String (Int,Int)
+        | OR        String (Int,Int)
+        | NEQUALS          String  (Int,Int)
+        | WRITE       String (Int,Int)
+        | READ       String (Int,Int)
+        | BOOLEAN        String  (Int,Int)
+        | CANVAS      String  (Int,Int)
+        | NUMBER         Int     (Int,Int)
+        | IDENTIFIER          String  (Int,Int)
+        | Error String String String Int String Int
         deriving (Eq, Show)
 
 {-|
@@ -121,16 +139,31 @@ data Token = TkLCurly   String  (Int,Int)
 		en la función @alexScanTokens@ generada por Alex.
 -}
 
-
+tokenize :: String -> [Token]
+tokenize (c : rest) = tokenize rest
+tokenize [] = []
+{-
+check_errors siz tok =
+    if tok==[]
+        then do 
+        putStr "vacio wee"
+    else if (take 1 tok) == []
+            then do 
+            putStr "vacio wee"
+        else return ()
+-}
 
 impresion siz tok =
     if siz==0 then return()
     else do
-        print $ tok !! 0
+        putStr "token "
+        print $ (tok !! 0)
         impresion (siz-1) (tail tok)
 
+
 lexer s = do
-    impresion siz tok
+    --check_errors siz tok
+   impresion siz tok
     where
         tok = alexScanTokens s
         siz = length (tok)
