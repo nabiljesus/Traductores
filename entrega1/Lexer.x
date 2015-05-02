@@ -23,7 +23,7 @@
 module Lexer (lexer) where
 }
 
-%wrapper "posn"
+%wrapper "posn" 
 
 $digito = 0-9           -- UN digito
 $letra  = [a-zA-Z]      -- UNA letra
@@ -33,32 +33,32 @@ $canvas = [\<\/\> \<\\\> \<\|\> \<_\> \<\-\>]
 tokens :-
 
 	$white+                        ;
-	\{                             { \p s -> TkLCurly    s        (lyc p)    "\n" }
-    --\|                              { \p s -> TkLPipe     s        (lyc p)    "\n" }
-	\}                             { \p s -> TkRCurly    s        (lyc p)    "\n" }
-    \%                             { \p s -> TkVarInt    s        (lyc p)    "\n" }
-    \!                             { \p s -> TkVarBool   s        (lyc p)    "\n" }
-    @                              { \p s -> TkVarCanvas s        (lyc p)    "\n" }
-	\[                             { \p s -> TkLB        s        (lyc p)    "\n" }
-	\]                             { \p s -> TkRB        s        (lyc p)    "\n" }
-	\;                             { \p s -> TkSeq       s        (lyc p)    "\n" }
-    \+                             { \p s -> TkSum       s        (lyc p)    "\n" }
-    \-                             { \p s -> TkMinus     s        (lyc p)    "\n" }
-    \*                             { \p s -> TkTimes     s        (lyc p)    "\n" }
-    \/                             { \p s -> TkDiv       s        (lyc p)    "\n" }
-    \%                             { \p s -> TkMod       s        (lyc p)    "\n" }
-    \(                             { \p s -> TkLP        s        (lyc p)    "\n" }
-    \)                             { \p s -> TkRP        s        (lyc p)    "\n" }
-    --\<                             { \p s -> TkLT        s        (lyc p)    "\n" }
-    \<\=                           { \p s -> TkLE        s        (lyc p)    "\n" }
-    --\>                             { \p s -> TkGT        s        (lyc p)    "\n" }
-    \>\=                           { \p s -> TkGE        s        (lyc p)    "\n" }
-    \=                             { \p s -> TkEQ        s        (lyc p)    "\n" }
-    \!\=                           { \p s -> TkNE        s        (lyc p)    "\n" }
-    $booleano                      { \p s -> TkBool      s        (lyc p)    "\n" }
-    $canvas                        { \p s -> TkCanvas    s        (lyc p)    "\n" }
-    $digito+                       { \p s -> TkNum       (read s) (lyc p)    "\n" }
-    $letra [ $letra $digito _ ]*   { \p s -> TkId        s        (lyc p)    "\n" }
+	\{                             { \p s -> TkLCurly    s        (lyc p)     }
+    --\|                              { \p s -> TkLPipe     s        (lyc p)     }
+	\}                             { \p s -> TkRCurly    s        (lyc p)     }
+    \%                             { \p s -> TkVarInt    s        (lyc p)     }
+    \!                             { \p s -> TkVarBool   s        (lyc p)     }
+    @                              { \p s -> TkVarCanvas s        (lyc p)     }
+	\[                             { \p s -> TkLB        s        (lyc p)     }
+	\]                             { \p s -> TkRB        s        (lyc p)     }
+	\;                             { \p s -> TkSeq       s        (lyc p)     }
+    \+                             { \p s -> TkSum       s        (lyc p)     }
+    \-                             { \p s -> TkMinus     s        (lyc p)     }
+    \*                             { \p s -> TkTimes     s        (lyc p)     }
+    \/                             { \p s -> TkDiv       s        (lyc p)     }
+    \%                             { \p s -> TkMod       s        (lyc p)     }
+    \(                             { \p s -> TkLP        s        (lyc p)     }
+    \)                             { \p s -> TkRP        s        (lyc p)     }
+    --\<                             { \p s -> TkLT        s        (lyc p)     }
+    \<\=                           { \p s -> TkLE        s        (lyc p)     }
+    --\>                             { \p s -> TkGT        s        (lyc p)     }
+    \>\=                           { \p s -> TkGE        s        (lyc p)     }
+    \=                             { \p s -> TkEQ        s        (lyc p)     }
+    \!\=                           { \p s -> TkNE        s        (lyc p)     }
+    $booleano                      { \p s -> TkBool      s        (lyc p)     }
+    $canvas                        { \p s -> TkCanvas    s        (lyc p)     }
+    $digito+                       { \p s -> TkNum       (read s) (lyc p)     }
+    $letra [ $letra $digito _ ]*   { \p s -> TkId        s        (lyc p)     }
     .                              ;
 
 {   
@@ -83,32 +83,32 @@ tokens :-
 		(/parser/).
 -}
 
-data Token = TkLCurly   String  (Int,Int)  String
-        | TkLPipe       String  (Int,Int)  String
-        | TkRCurly      String  (Int,Int)  String
-        | TkVarInt      String  (Int,Int)  String
-        | TkVarBool     String  (Int,Int)  String
-        | TkVarCanvas   String  (Int,Int)  String
-        | TkLB          String  (Int,Int)  String
-        | TkRB          String  (Int,Int)  String
-        | TkSeq         String  (Int,Int)  String
-        | TkSum         String  (Int,Int)  String
-        | TkMinus       String  (Int,Int)  String
-        | TkTimes       String  (Int,Int)  String
-        | TkDiv         String  (Int,Int)  String
-        | TkMod         String  (Int,Int)  String
-        | TkLP          String  (Int,Int)  String
-        | TkRP          String  (Int,Int)  String
-        | TkLT          String  (Int,Int)  String
-        | TkLE          String  (Int,Int)  String
-        | TkGT          String  (Int,Int)  String
-        | TkGE          String  (Int,Int)  String
-        | TkEQ          String  (Int,Int)  String
-        | TkNE          String  (Int,Int)  String
-        | TkBool        String  (Int,Int)  String
-        | TkCanvas      String  (Int,Int)  String
-        | TkNum         Int     (Int,Int)  String
-        | TkId          String  (Int,Int)  String
+data Token = TkLCurly   String  (Int,Int)
+        | TkLPipe       String  (Int,Int)
+        | TkRCurly      String  (Int,Int)
+        | TkVarInt      String  (Int,Int)
+        | TkVarBool     String  (Int,Int)
+        | TkVarCanvas   String  (Int,Int)
+        | TkLB          String  (Int,Int)
+        | TkRB          String  (Int,Int)
+        | TkSeq         String  (Int,Int)
+        | TkSum         String  (Int,Int)
+        | TkMinus       String  (Int,Int)
+        | TkTimes       String  (Int,Int)
+        | TkDiv         String  (Int,Int)
+        | TkMod         String  (Int,Int)
+        | TkLP          String  (Int,Int)
+        | TkRP          String  (Int,Int)
+        | TkLT          String  (Int,Int)
+        | TkLE          String  (Int,Int)
+        | TkGT          String  (Int,Int)
+        | TkGE          String  (Int,Int)
+        | TkEQ          String  (Int,Int)
+        | TkNE          String  (Int,Int)
+        | TkBool        String  (Int,Int)
+        | TkCanvas      String  (Int,Int)
+        | TkNum         Int     (Int,Int)
+        | TkId          String  (Int,Int)
         deriving (Eq, Show)
 
 {-|
@@ -126,7 +126,7 @@ data Token = TkLCurly   String  (Int,Int)  String
 impresion siz tok =
     if siz==0 then return()
     else do
-        print $ take 1 tok
+        print $ tok !! 0
         impresion (siz-1) (tail tok)
 
 lexer s = do

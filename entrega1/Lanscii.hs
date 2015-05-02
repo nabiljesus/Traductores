@@ -24,7 +24,8 @@ module Main (
 
 import System.IO
 import Lexer
-
+import System.Environment   
+import Data.List  
 
 {-|
    Función principal.
@@ -56,7 +57,5 @@ main =
 
 getFilename =
 	do
-		hSetBuffering stdout NoBuffering
-		putStr "Archivo a Interpretar: "
-		fileName <- getLine
-		return fileName
+		fileName <- getArgs 
+		return $ (fileName !! 0)

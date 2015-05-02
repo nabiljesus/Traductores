@@ -219,32 +219,32 @@ alex_accept = listArray (0::Int,35) [[],[],[],[],[],[],[],[],[],[],[(AlexAccSkip
 		(/parser/).
 -}
 
-data Token = TkLCurly   String  (Int,Int)  String
-        | TkLPipe       String  (Int,Int)  String
-        | TkRCurly      String  (Int,Int)  String
-        | TkVarInt      String  (Int,Int)  String
-        | TkVarBool     String  (Int,Int)  String
-        | TkVarCanvas   String  (Int,Int)  String
-        | TkLB          String  (Int,Int)  String
-        | TkRB          String  (Int,Int)  String
-        | TkSeq         String  (Int,Int)  String
-        | TkSum         String  (Int,Int)  String
-        | TkMinus       String  (Int,Int)  String
-        | TkTimes       String  (Int,Int)  String
-        | TkDiv         String  (Int,Int)  String
-        | TkMod         String  (Int,Int)  String
-        | TkLP          String  (Int,Int)  String
-        | TkRP          String  (Int,Int)  String
-        | TkLT          String  (Int,Int)  String
-        | TkLE          String  (Int,Int)  String
-        | TkGT          String  (Int,Int)  String
-        | TkGE          String  (Int,Int)  String
-        | TkEQ          String  (Int,Int)  String
-        | TkNE          String  (Int,Int)  String
-        | TkBool        String  (Int,Int)  String
-        | TkCanvas      String  (Int,Int)  String
-        | TkNum         Int     (Int,Int)  String
-        | TkId          String  (Int,Int)  String
+data Token = TkLCurly   String  (Int,Int)
+        | TkLPipe       String  (Int,Int)
+        | TkRCurly      String  (Int,Int)
+        | TkVarInt      String  (Int,Int)
+        | TkVarBool     String  (Int,Int)
+        | TkVarCanvas   String  (Int,Int)
+        | TkLB          String  (Int,Int)
+        | TkRB          String  (Int,Int)
+        | TkSeq         String  (Int,Int)
+        | TkSum         String  (Int,Int)
+        | TkMinus       String  (Int,Int)
+        | TkTimes       String  (Int,Int)
+        | TkDiv         String  (Int,Int)
+        | TkMod         String  (Int,Int)
+        | TkLP          String  (Int,Int)
+        | TkRP          String  (Int,Int)
+        | TkLT          String  (Int,Int)
+        | TkLE          String  (Int,Int)
+        | TkGT          String  (Int,Int)
+        | TkGE          String  (Int,Int)
+        | TkEQ          String  (Int,Int)
+        | TkNE          String  (Int,Int)
+        | TkBool        String  (Int,Int)
+        | TkCanvas      String  (Int,Int)
+        | TkNum         Int     (Int,Int)
+        | TkId          String  (Int,Int)
         deriving (Eq, Show)
 
 {-|
@@ -262,7 +262,7 @@ data Token = TkLCurly   String  (Int,Int)  String
 impresion siz tok =
     if siz==0 then return()
     else do
-        print $ take 1 tok
+        print $ tok !! 0
         impresion (siz-1) (tail tok)
 
 lexer s = do
@@ -314,29 +314,29 @@ reportError p s = error m
 						"' en la linea " ++ (show l) ++ " y columna " ++ (show c) ++ "."
 															
 
-alex_action_1 =  \p s -> TkLCurly    s        (lyc p)    "\n" 
-alex_action_2 =  \p s -> TkRCurly    s        (lyc p)    "\n" 
-alex_action_3 =  \p s -> TkVarInt    s        (lyc p)    "\n" 
-alex_action_4 =  \p s -> TkVarBool   s        (lyc p)    "\n" 
-alex_action_5 =  \p s -> TkVarCanvas s        (lyc p)    "\n" 
-alex_action_6 =  \p s -> TkLB        s        (lyc p)    "\n" 
-alex_action_7 =  \p s -> TkRB        s        (lyc p)    "\n" 
-alex_action_8 =  \p s -> TkSeq       s        (lyc p)    "\n" 
-alex_action_9 =  \p s -> TkSum       s        (lyc p)    "\n" 
-alex_action_10 =  \p s -> TkMinus     s        (lyc p)    "\n" 
-alex_action_11 =  \p s -> TkTimes     s        (lyc p)    "\n" 
-alex_action_12 =  \p s -> TkDiv       s        (lyc p)    "\n" 
-alex_action_13 =  \p s -> TkMod       s        (lyc p)    "\n" 
-alex_action_14 =  \p s -> TkLP        s        (lyc p)    "\n" 
-alex_action_15 =  \p s -> TkRP        s        (lyc p)    "\n" 
-alex_action_16 =  \p s -> TkLE        s        (lyc p)    "\n" 
-alex_action_17 =  \p s -> TkGE        s        (lyc p)    "\n" 
-alex_action_18 =  \p s -> TkEQ        s        (lyc p)    "\n" 
-alex_action_19 =  \p s -> TkNE        s        (lyc p)    "\n" 
-alex_action_20 =  \p s -> TkBool      s        (lyc p)    "\n" 
-alex_action_21 =  \p s -> TkCanvas    s        (lyc p)    "\n" 
-alex_action_22 =  \p s -> TkNum       (read s) (lyc p)    "\n" 
-alex_action_23 =  \p s -> TkId        s        (lyc p)    "\n" 
+alex_action_1 =  \p s -> TkLCurly    s        (lyc p)     
+alex_action_2 =  \p s -> TkRCurly    s        (lyc p)     
+alex_action_3 =  \p s -> TkVarInt    s        (lyc p)     
+alex_action_4 =  \p s -> TkVarBool   s        (lyc p)     
+alex_action_5 =  \p s -> TkVarCanvas s        (lyc p)     
+alex_action_6 =  \p s -> TkLB        s        (lyc p)     
+alex_action_7 =  \p s -> TkRB        s        (lyc p)     
+alex_action_8 =  \p s -> TkSeq       s        (lyc p)     
+alex_action_9 =  \p s -> TkSum       s        (lyc p)     
+alex_action_10 =  \p s -> TkMinus     s        (lyc p)     
+alex_action_11 =  \p s -> TkTimes     s        (lyc p)     
+alex_action_12 =  \p s -> TkDiv       s        (lyc p)     
+alex_action_13 =  \p s -> TkMod       s        (lyc p)     
+alex_action_14 =  \p s -> TkLP        s        (lyc p)     
+alex_action_15 =  \p s -> TkRP        s        (lyc p)     
+alex_action_16 =  \p s -> TkLE        s        (lyc p)     
+alex_action_17 =  \p s -> TkGE        s        (lyc p)     
+alex_action_18 =  \p s -> TkEQ        s        (lyc p)     
+alex_action_19 =  \p s -> TkNE        s        (lyc p)     
+alex_action_20 =  \p s -> TkBool      s        (lyc p)     
+alex_action_21 =  \p s -> TkCanvas    s        (lyc p)     
+alex_action_22 =  \p s -> TkNum       (read s) (lyc p)     
+alex_action_23 =  \p s -> TkId        s        (lyc p)     
 {-# LINE 1 "templates/GenericTemplate.hs" #-}
 {-# LINE 1 "templates/GenericTemplate.hs" #-}
 {-# LINE 1 "<built-in>" #-}
