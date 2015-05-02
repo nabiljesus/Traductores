@@ -72,7 +72,7 @@ AUTORES:
 	
 	
 3.- De los diagramas de transicion (la representacion grafica) de dos automantas
-	finitos (posiblemente no-deterministicos): M0 y M1 que reconozcan los lenguajes
+	finitos (posiblemente no-determinísticos): M0 y M1 que reconozcan los lenguajes
 	L0 y L1 denotados por E0 y E1 respectivamente.
 	
 	SOLUCION:
@@ -86,13 +86,37 @@ AUTORES:
 			
 			Ver archivo diagramaM1.png
 			
-			
 	
 4.- Proponga el diagrama de transicion de un automata finito no-deterministico
 	M2 que reconozca la union de los lenguajes L(M0) y L(M1)
 	
+	SOLUCION:
+	
+		* Diagrama de transicion del automata M2:
+		
+			Ver archivo diagramaM2.png
+	
+	
 5.- Un analizador lexicografico debe ser capaz de discernir a cual lenguaje 
 	pertenece una palabra (o, en este caso, token) que acaba de reconocer. 
-	De acuerdo con esto, cada estado final del automata M2 debe ser capaz de
+	De acuerdo con esto, cada estado final del autómata M2 debe ser capaz de
 	diferenciar si la palabra reconocida pertenece al lenguaje L(M0) o L(M1).
 	Inidique lo anterior en cada estado final de M2.
+	
+
+6.- La asignacion anterior de estados finales a lenguajes debe de crear 
+	conflictos de reconocimiento, indique cuales son estos problemas y porque
+	ocurren.
+
+
+7.- De acuerdo con la pregunta anterior, indique cuales son los conflictos del
+	automata propuesto M2, especificando las palabras que los generan, los 
+	lenguajes y estados finales involucrados.
+	
+	
+8.- Diga cual solucion puede ser utilizada para resolver los conflictos de 
+	reconocimiento desarrollados en las preguntas 6 y 7. Explique brevemente
+	su solucion y por que funciona.
+	
+9.- �Como relaciona Ud. el desarrollo de las preguntas 2-8 con la 
+	implementacion de su analizador lexicografico para el lenguaje Lanscii?
