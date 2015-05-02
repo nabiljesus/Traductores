@@ -60,6 +60,7 @@ tokens :-
     $digito+                       { \p s -> TkNum       (read s) (lyc p)    "\n" }
     $letra [ $letra $digito _ ]*   { \p s -> TkId        s        (lyc p)    "\n" }
     .                              ;
+
 {   
 
 {-|
@@ -120,15 +121,19 @@ data Token = TkLCurly   String  (Int,Int)  String
 		en la función @alexScanTokens@ generada por Alex.
 -}
 
-wordsWhen     :: (Char -> Bool) -> String -> [String]
-wordsWhen p s =  case dropWhile p s of
-                      "" -> []
-                      s' -> w : wordsWhen p s''
-                            where (w, s'') = break p s'
 
 
-lexer s = 
-    print $ length (alexScanTokens s)
+impresion siz tok =
+    if siz==0 then return()
+    else do
+        print $ take 1 tok
+        impresion (siz-1) (tail tok)
+
+lexer s = do
+    impresion siz tok
+    where
+        tok = alexScanTokens s
+        siz = length (tok)
 
 {-
 -- alexScanTokens :: String -> [token]
