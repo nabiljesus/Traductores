@@ -1,0 +1,140 @@
+-------------------------------------------------------------------------------
+
+UNIVERSIDAD SIMON BOLIVAR
+Departamento de Computacion y Tecnologia de la Informacion.
+CI3725 - Traductores e Interpretadores
+Abril - Julio 2015
+
+AUTORES:
+	Edward Fernandez. 	Carnet: 10-11121
+	Nabil Marquez.		Carnet: 11-10683
+
+-------------------------------------------------------------------------------
+
+							ANALISIS TEORICO-PRACTICO
+
+1.- Proporcione una expresion regular E que corresponda a los comentarios 
+	definidos en Lanscii. De el diagrama de transicion (la representacion 
+	grafica) de un automata finito (posiblemente no-deterministico) M que 
+	reconozca el lenguaje L denotado por E. De acuerdo con la definicion 
+	de los comentarios en Lanscii, explique brevemente cuales son las 
+	decisiones tomadas al construir la expresion regular E para que 
+	efectivamente sean cumplidas las restricciones de un comentario valido 
+	y porque estas funcionan.
+
+	SOLUCION:
+		* Expresion Regular 
+		
+				E = \{\-[^\-\}]*\-\}
+	
+	
+		* Diagrama de transicion: 
+	
+			Ver archivo diagramaT.png
+		
+		* En Lanscii es posible comentar secciones completas del programa
+		  encerrando una seccion de codigo entre los sımbolos "{-" y "-}" 
+		  (sin comillas). 
+		  
+		  El sımbolo "{-" inicia el comentario y se finaliza con el primer
+		  simbolo "-}" encontrado. Adicionalmente, "{-" puede apareceder 
+		  dentro de la seccion, pero este sera ignorado ya que no se permite
+		  anidamientos de comentarios. Por tal motivo, para cumplir con 
+		  estos requerimientos se decidio que la expresion regular deseada
+		  debe cumplir que:
+		  
+		  		1.- Debe iniciar con el caracter "{-". De esta forma se 
+				  	podra iniciar el area de comentacion.
+				
+				2.- Debe finalizar con el caracter "-}". De esta forma
+					se indicara que se finaliza el comentario.
+				
+				3.- Debe admitir un comentario vacio, "{--}"
+				
+				4.- La seccion a comentar puede estar compuesta por
+					cadenas de caracteres alfanumericos. Asi como
+					tambien de caracteres especiales.
+			
+		De esta forma se asegura que el contenido entre "{-" y "-}" es un
+		comentario y que el programa podra ignorar. De lo contrario se
+		considerara como instrucciones a ejecutar.
+		
+
+
+2.- Proporcione dos expresiones regulares: E0 y E1 para el reconocimiento de
+ 	la palabra reservada write y los identificadores de variables del lenguaje
+	respectivamente.
+	
+	SOLUCION:
+		
+		* Expresion E0: "write " (sin las comillas)
+		
+		* Expresion E1: [a-zA-Z_][\w|\d]*
+		
+	
+	
+3.- De los diagramas de transicion (la representacion grafica) de dos automantas
+	finitos (posiblemente no-determinísticos): M0 y M1 que reconozcan los lenguajes
+	L0 y L1 denotados por E0 y E1 respectivamente.
+	
+	SOLUCION:
+	
+		* Diagrama de transicion del automata M0:
+		
+			Ver archivo diagramaM0.png
+		
+		
+		* Diagrama de transicion del automata M1:
+			
+			Ver archivo diagramaM1.png
+			
+	
+4.- Proponga el diagrama de transicion de un automata finito no-deterministico
+	M2 que reconozca la union de los lenguajes L(M0) y L(M1)
+	
+	SOLUCION:
+	
+		* Diagrama de transicion del automata M2:
+		
+			Ver archivo diagramaM2.png
+	
+	
+5.- Un analizador lexicografico debe ser capaz de discernir a cual lenguaje 
+	pertenece una palabra (o, en este caso, token) que acaba de reconocer. 
+	De acuerdo con esto, cada estado final del autómata M2 debe ser capaz de
+	diferenciar si la palabra reconocida pertenece al lenguaje L(M0) o L(M1).
+	Inidique lo anterior en cada estado final de M2.
+	
+	SOLUCION:
+		
+		Observando el archivo diagramaM2.png se observa que:
+		
+			1.- El estado q7 me permite indicar que la pabra reconocida
+				pertenece al lenguaje L(M0).
+				
+			2.- El estado q10 me permite indicar que la pabra reconocida
+				pertenece al lenguaje L(M1).
+
+
+6.- La asignacion anterior de estados finales a lenguajes debe de crear 
+	conflictos de reconocimiento, indique cuales son estos problemas y porque
+	ocurren.
+
+	SOLUCION:
+
+7.- De acuerdo con la pregunta anterior, indique cuales son los conflictos del
+	automata propuesto M2, especificando las palabras que los generan, los 
+	lenguajes y estados finales involucrados.
+	
+	SOLUCION:
+	
+8.- Diga cual solucion puede ser utilizada para resolver los conflictos de 
+	reconocimiento desarrollados en las preguntas 6 y 7. Explique brevemente
+	su solucion y por que funciona.
+	
+	SOLUCION:
+	
+9.- �Como relaciona Ud. el desarrollo de las preguntas 2-8 con la 
+	implementacion de su analizador lexicografico para el lenguaje Lanscii?
+	
+	SOLUCION:
