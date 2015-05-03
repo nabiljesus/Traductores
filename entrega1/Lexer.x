@@ -153,16 +153,6 @@ check_errors siz tok =
         else return ()
 -}
 
-impresion siz tok =
-    if siz==0 then return()
-    else if (tok !! 0) /= "Error"
-        then
-        do
-            putStr "token "
-            print $ (tok !! 0)
-            impresion (siz-1) (tail tok)
-        else print "hola"
-
 
 lexer s = alexScanTokens s
 {-

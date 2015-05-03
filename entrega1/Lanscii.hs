@@ -48,13 +48,10 @@ check_errors siz tok =
 
 impresion siz tok =
     if siz==0 then return()
-    else if (tok !! 0) /= "Error"
-        then
-        do
+    else do
             putStr "token "
             print $ (tok !! 0)
             impresion (siz-1) (tail tok)
-        else print "hola"
 
 main :: IO ()
 
@@ -64,8 +61,9 @@ main =
 		contents <- readFile fileName
 		let aux =  lexer contents
 		let siz = length(aux)
-		tok <- print $ aux
-		print $ tok == ""
+		impresion siz aux
+		--tok <- print $ aux
+		--print $ tok == ""
 		
 
 {-
