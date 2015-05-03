@@ -25,8 +25,6 @@ module Main (
 import System.IO
 import Lexer
 import System.Environment   
-import Data.List  
-import Text.Printf
 
 {-|
    Función principal.
@@ -37,31 +35,16 @@ import Text.Printf
  -}
 
 
-check_errors siz tok =
-    if tok==[]
-        then return ()
-    else if (take 1 tok) == []
-            then do 
-            putStr "vacio wee"
-        else check_errors (siz-1) (tail tok)
-
-
-impresion siz tok =
-    if siz==0 then return()
-    else do
-            putStr "token "
-            print $ (tok !! 0)
-            impresion (siz-1) (tail tok)
-
 main :: IO ()
 
 main =
 	do
 		fileName <- getFilename
 		contents <- readFile fileName
-		let aux =  lexer contents
-		let siz = length(aux)
-		impresion siz aux
+		lexer contents
+		--let aux =  lexer contents
+		--let siz = length(aux)
+		--impresion siz aux
 		--tok <- print $ aux
 		--print $ tok == ""
 		

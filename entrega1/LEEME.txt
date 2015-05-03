@@ -1,0 +1,51 @@
+﻿"Lanscii" - CI3675 - Etapa I
+Análisis Lexicográfico
+
+
+Autores: 10-11121 - Edward Fernández.
+	  	 11-10683 - Nabil J. Márquez.
+
+Fecha: 03/05/2015
+
+Descripción: "En la primera etapa de desarrollo del interpretador para el lenguaje Lanscii se
+			  debe implementar su analizador lexicográfico y realizar un breve análisis de los
+			  conceptos y métodos teórico-prácticos utilizados durante esta primera fase del
+			  proyecto."
+
+Estado actual del proyecto: "Análisis lexicográfico completo para el interpretre. 
+							Primera parte del Front-end lista."
+
+Errores presentados:
+
+1) Errores básicos en sintaxis de Haskell debido a la inexperticia con el mismo. 
+   Especialmente dentro de los bloques "do".
+
+2) Errores de tipos de datos en la salida y entrada de funciones solucionados con debugeo.
+
+3) Errores de Parser en la deficion de las Expresiones Regulares utilizadas en los tokens de Alex.
+	Solucionado luego de estudiar la documentación de Alex.  
+
+4) Error en el Makefile mientras ocurria la adaptación a los comandos de GHC. 
+
+5) Enteros fuera del rango de los representables se expresan como -1. Se intento establecer una expresion regular en ese rango de numeros pero simplemente truncaba el entero y no aseguraba su correctitud.
+
+Consideraciones y Detalles de implementación:
+
+1) "Esta fase del proyecto fue implementado utilizando The Glorious Glasgow Haskell Compilation
+    System (GHC), version 7.4.1"
+
+2) "Se requiere el acceso a la librería System para el correcto funcionamiento de esta fase del proyecto."
+
+3) "Lanscii.hs posee una funcion getFilename que simplemente obtiene el nombre del archivo pasado como argumento
+	al ejecutar Lascii."
+
+4) "Se implementó esta etapa asumiendo un contrato de siempre colocar el nombre del archivo a estudiar correctamente 	(y siempre colocarlo)."
+
+5) "Lanscii.hs solo recibe el nombre del archivo para llamar al Lexer"
+
+6) "Lexer.x contiene los tokens de Alex y las funciones requeridas para el estudio de los tokens."
+
+7) "Para mejor encapsulamiento, se decidio implementar una funcion que detecta si un token es de error, otra que 
+	revisa si existe algun token error, y otra que imprime los tokens con un formato distinto para los tkError. Estas funciones aparte del main del Lexer."
+
+Haskell es un lenguaje versatil y útil al cuál cuesta adaptarse. 

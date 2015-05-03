@@ -30,11 +30,11 @@ $letra  = [a-zA-Z]      -- UNA letra
 ---$number = [2147483647-2147483647]
 $booleano = [true false]
 $canvas = [ \/ \\ \| _ \- ]
-
+--$rcommt = [ \-\}]
 tokens :-
 
 	$white+                        ;
-    \{\-.*\-\}                     ;
+    \{\-[^\-\}]*\-\}                     ;
     \{                             { \p s -> LCURLY    s        (lyc p)     }
     \|                       { \p s -> PIPE      s        (lyc p)     }
 	\}                             { \p s -> RCURLY    s        (lyc p)     }
@@ -45,7 +45,8 @@ tokens :-
 	\]                             { \p s -> RB        s        (lyc p)     }
 	\;                             { \p s -> SEM_COLON       s        (lyc p)     }
     \:                             { \p s -> COLON       s        (lyc p)     }
-    \'                             { \p s -> APOSTROPHE       s        (lyc p)     }
+    \?                             { \p s -> APOSTROPHE       s        (lyc p)     }
+    \'                             { \p s -> QUESTION_MARK       s        (lyc p)     }
     \$                             { \p s -> DOLAR       s        (lyc p)     }
     \+                             { \p s -> SUM       s        (lyc p)     }
     \-                             { \p s -> MINUS     s        (lyc p)     }
@@ -69,7 +70,7 @@ tokens :-
     \#                             { \p s -> CANVAS    s        (lyc p)     }
     $digito+                       { \p s -> NUMBER       (read s) (lyc p)     }
     $letra [ $letra $digito _ ]*   { \p s -> IDENTIFIER        s        (lyc p)     }
-    .                              { \p s -> Error "Error: Unexpected character:" s "at line: "(fst(lyc p)) ", column: "(snd(lyc p))}
+    .                              { \p s -> TkError        s        (lyc p)     }
 
 {   
 
@@ -104,6 +105,7 @@ data Token = LCURLY   String  (Int,Int)
         | SEM_COLON         String  (Int,Int)
         | COLON         String  (Int,Int)
         | APOSTROPHE  String (Int,Int)
+        | QUESTION_MARK  String (Int,Int)
         | DOLAR  String (Int,Int)
         | SUM         String  (Int,Int)
         | MINUS       String  (Int,Int)
@@ -126,7 +128,7 @@ data Token = LCURLY   String  (Int,Int)
         | CANVAS      String  (Int,Int)
         | NUMBER         Int     (Int,Int)
         | IDENTIFIER          String  (Int,Int)
-        | Error String String String Int String Int
+        | TkError String (Int,Int)
         deriving (Eq, Show)
 
 {-|
@@ -138,10 +140,36 @@ data Token = LCURLY   String  (Int,Int)
 		En la versión Simple de MiniLogo, todo lo que hace es apoyarse
 		en la función @alexScanTokens@ generada por Alex.
 -}
+--print :: Token -> Bool
+printError (TkError a (b,c)) = 
+    do
+        print $  "Error (Lexer): Unexpected char '" ++ a ++ 
+            "' in line : " ++ (show b) ++ ", column : " ++ (show c) ++ "."
 
-tokenize :: String -> [Token]
-tokenize (c : rest) = tokenize rest
-tokenize [] = []
+isError :: Token -> Bool
+isError (TkError _ _) = True
+isError _ = False
+
+check_errors :: [Token]-> Bool
+check_errors tok =
+    if tok==[] then 
+        False
+    else 
+        if isError (tok !! 0) then True
+        else check_errors (tail tok)
+
+
+
+impresion tok is =
+    if tok==[] then return()
+    else do
+            if not is then do
+                putStr "token "
+                print $ (tok !! 0)
+                impresion (tail tok) is
+            else do
+                printError (tok !! 0)
+                impresion (tail tok) is
 {-
 check_errors siz tok =
     if tok==[]
@@ -153,8 +181,12 @@ check_errors siz tok =
         else return ()
 -}
 
-
-lexer s = alexScanTokens s
+lexer s = do
+    let tok = (alexScanTokens s)
+    let err = check_errors tok
+    --if err then
+    if err then impresion (filter (\t -> isError t) tok) True
+    else  impresion (filter (\t -> not (isError t)) tok) False
 {-
 -- alexScanTokens :: String -> [token]
 alexScanTokens str = go ('\n',[],str)
@@ -190,11 +222,14 @@ lyc (AlexPn _ l c) = (l,c)
 		con la expresión regular. La función reportError se encarga de emitir
 		un mensaje de error apropiado aprovechando esos parámetros.
  -}
-reportError :: AlexPosn -> String -> a
-reportError p s = error m
-	where 
-		(l,c) = lyc p
-		m     = "\nError (Lexer): Caracter inesperado '" ++ s ++ 
-						"' en la linea " ++ (show l) ++ " y columna " ++ (show c) ++ "."
-															
+
+
+
+{-reportError :: (Token String AlexPosn) -> String
+reportError (a b c) = m
+    where 
+        (l,c) = lyc c
+        m     = "\nError (Lexer): Caracter inesperado '" ++ b ++ 
+                        "' en la linea " ++ (show l) ++ " y columna " ++ (show c) ++ "."
+-}															
 }
