@@ -26,6 +26,7 @@ import System.IO
 import Lexer
 import System.Environment   
 import Data.List  
+import Text.Printf
 
 {-|
    Función principal.
@@ -34,13 +35,38 @@ import Data.List
    o bien cargado en el interpretador GHCi e invocado a través
    de la función @main@.
  -}
+
+
+check_errors siz tok =
+    if tok==[]
+        then return ()
+    else if (take 1 tok) == []
+            then do 
+            putStr "vacio wee"
+        else check_errors (siz-1) (tail tok)
+
+
+impresion siz tok =
+    if siz==0 then return()
+    else if (tok !! 0) /= "Error"
+        then
+        do
+            putStr "token "
+            print $ (tok !! 0)
+            impresion (siz-1) (tail tok)
+        else print "hola"
+
 main :: IO ()
 
 main =
 	do
 		fileName <- getFilename
 		contents <- readFile fileName
-		lexer contents
+		let aux =  lexer contents
+		let siz = length(aux)
+		tok <- print $ aux
+		print $ tok == ""
+		
 
 {-
    getFilename

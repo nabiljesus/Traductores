@@ -281,19 +281,16 @@ check_errors siz tok =
 
 impresion siz tok =
     if siz==0 then return()
-    else do
-        putStr "token "
-        print $ (tok !! 0)
-        impresion (siz-1) (tail tok)
+    else if (tok !! 0) /= "Error"
+        then
+        do
+            putStr "token "
+            print $ (tok !! 0)
+            impresion (siz-1) (tail tok)
+        else print "hola"
 
 
-lexer s = do
-    --check_errors siz tok
-   impresion siz tok
-    where
-        tok = alexScanTokens s
-        siz = length (tok)
-
+lexer s = alexScanTokens s
 {-
 -- alexScanTokens :: String -> [token]
 alexScanTokens str = go ('\n',[],str)
