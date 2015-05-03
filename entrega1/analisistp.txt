@@ -25,9 +25,7 @@ AUTORES:
 	SOLUCION:
 		* Expresion Regular 
 		
-				E = \{\-((((\s)*(\w|[!"á%&%&/(/%"!á%&á!"á%}])*)|(}))*)(\-\})
-				
-				-- [{-]((\s)*(\w|\W)*)*[-}]
+				E = \{\-[^\-\}]*\-\}
 	
 	
 		* Diagrama de transicion: 
@@ -105,20 +103,36 @@ AUTORES:
 	diferenciar si la palabra reconocida pertenece al lenguaje L(M0) o L(M1).
 	Inidique lo anterior en cada estado final de M2.
 	
+	SOLUCION:
+		
+		Observando el archivo diagramaM2.png se observa que:
+		
+			1.- El estado q7 me permite indicar que la pabra reconocida
+				pertenece al lenguaje L(M0).
+				
+			2.- El estado q10 me permite indicar que la pabra reconocida
+				pertenece al lenguaje L(M1).
+
 
 6.- La asignacion anterior de estados finales a lenguajes debe de crear 
 	conflictos de reconocimiento, indique cuales son estos problemas y porque
 	ocurren.
 
+	SOLUCION:
 
 7.- De acuerdo con la pregunta anterior, indique cuales son los conflictos del
 	automata propuesto M2, especificando las palabras que los generan, los 
 	lenguajes y estados finales involucrados.
 	
+	SOLUCION:
 	
 8.- Diga cual solucion puede ser utilizada para resolver los conflictos de 
 	reconocimiento desarrollados en las preguntas 6 y 7. Explique brevemente
 	su solucion y por que funciona.
 	
-9.- ÀComo relaciona Ud. el desarrollo de las preguntas 2-8 con la 
+	SOLUCION:
+	
+9.- ï¿½Como relaciona Ud. el desarrollo de las preguntas 2-8 con la 
 	implementacion de su analizador lexicografico para el lenguaje Lanscii?
+	
+	SOLUCION:
